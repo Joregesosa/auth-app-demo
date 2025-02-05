@@ -20,15 +20,15 @@ export async function login(req, res, next) {
       id: user.id,
       role: user.role,
     };
-
+    // expires in 20 minutes
     const token = jwt.sign(payload, appConfig.secret, {
-      expiresIn: "24h",
+      expiresIn: "20m",
     });
 
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "strict",
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: 20 * 60 * 1000,
     });
     res.status(200).json({ message: "Login successful" });
   } catch (error) {
