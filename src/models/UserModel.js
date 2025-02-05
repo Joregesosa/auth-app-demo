@@ -28,9 +28,9 @@ export class User {
     try {
       const rs = users.find((user) => user.email === email);
       if (!rs) {
-        throw new Error("User not found");
+        throw { status: 404, message: "User not found" };
       }
-       
+
       return rs;
     } catch (error) {
       throw error;
