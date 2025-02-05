@@ -9,16 +9,18 @@ import { appConfig } from "../config/app_config.js";
  */
 
 export function authenticateToken(req, res, next) {
-  const token = req.cookies?.token;
-
-  if (!token) {
-    return res
-      .status(401)
-      .json({ message: "Access denied. No token provided." });
-  }
-
   try {
+    const token = req.cookies?.token;
+    const authHeader = req.headers["Authorization"];
+    if (!token && !authHeader) {
+      return res
+        .status(401)
+        .json({ message: "Access denied. No token provided." });
+    }
+
+    const decode = authHeader ? authHeader : token;
     const decoded = jwt.verify(token, appConfig.secret);
+    
     req.auth = decoded;
     next();
   } catch (error) {

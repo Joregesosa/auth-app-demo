@@ -30,7 +30,7 @@ export async function login(req, res, next) {
       sameSite: "strict",
       maxAge: 20 * 60 * 1000,
     });
-    res.status(200).json({ message: "Login successful" });
+    res.status(200).json({ message: "Login successful", token });
   } catch (error) {
     next(error);
   }
