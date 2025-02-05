@@ -11,7 +11,10 @@ import { appConfig } from "../config/app_config.js";
 export function authenticateToken(req, res, next) {
   try {
     const token = req.cookies?.token;
-    const authHeader = req.headers["Authorization"];
+    const authHeader = req.headers["authorization"];
+
+    console.log(token);
+
     if (!token && !authHeader) {
       return res
         .status(401)
@@ -19,7 +22,7 @@ export function authenticateToken(req, res, next) {
     }
 
     const decode = authHeader ? authHeader : token;
-    const decoded = jwt.verify(token, appConfig.secret);
+    const decoded = jwt.verify(decode, appConfig.secret);
     
     req.auth = decoded;
     next();

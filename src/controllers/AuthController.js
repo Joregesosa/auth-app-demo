@@ -3,10 +3,8 @@ import { appConfig } from "../config/app_config.js";
 import jwt from "jsonwebtoken";
 
 export async function login(req, res, next) {
- 
-  
   try {
-     const { email, password } = req.body;
+    const { email, password } = req.body;
     const user = await User.findByEmail(email);
     if (!user) {
       throw { message: "User not found", status: 404 };
