@@ -4,7 +4,7 @@ export async function index(req, res, next) {
   try {
     const { auth } = req;
     if (auth.role !== "admin") {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(403).json({ message: "Unauthorized" });
     }
     const users = await User.all();
     res.json(users);
@@ -17,7 +17,7 @@ export async function show(req, res, next) {
   try {
     const { auth } = req;
     if (auth.role !== "admin" && auth.id != req.params.id) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(403).json({ message: "Unauthorized" });
     }
     const { id } = req.params;
     const user = await User.find(parseInt(id));
@@ -31,7 +31,7 @@ export async function store(req, res, next) {
   try {
     const { auth } = req;
     if (auth.role !== "admin") {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(403).json({ message: "Unauthorized" });
     }
     const missingKeys = validate(req.body);
 
@@ -52,7 +52,7 @@ export async function update(req, res, next) {
   try {
     const { auth } = req;
     if (auth.role !== "admin" && auth.id != req.params.id) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(403).json({ message: "Unauthorized" });
     }
 
     const { id } = req.params;
@@ -74,14 +74,14 @@ export async function update(req, res, next) {
     res.json({ message: "User updated" });
   } catch (error) {
     next(error);
-  }
+  } 
 }
 
 export async function remove(req, res, next) {
   try {
     const { auth } = req;
     if (auth.role !== "admin" && auth.id != req.params.id) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(403).json({ message: "Unauthorized" });
     }
     const { id } = req.params;
     const user = await User.find(parseInt(id));
